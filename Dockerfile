@@ -10,7 +10,13 @@ COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 COPY . /var/www/html
 
+WORKDIR /var/www/html
+
 RUN composer install
+
+RUN php artisan migrate
+
+RUN php artisan serve
 
 RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
